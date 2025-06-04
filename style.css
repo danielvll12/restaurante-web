@@ -214,3 +214,57 @@ footer {
   0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#feedback {
+  background: #f5f5f5;
+  padding: 40px;
+  text-align: center;
+}
+
+.form-feedback {
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-feedback input,
+.form-feedback textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  width: 100%;
+}
+
+.form-feedback button {
+  background-color: #0f2027;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.form-feedback button:hover {
+  background-color: #203a43;
+}

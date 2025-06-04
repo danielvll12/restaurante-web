@@ -1,9 +1,12 @@
 const menu = [
   { nombre: "Tacos de pollo", precio: 3.00 },
   { nombre: "Tacos de carne", precio: 3.50 },
+   { nombre: "Tacos mixto", precio: 3.00 },
   { nombre: "Torta de Pollo", precio: 3.00 },
   { nombre: "Torta de carne", precio: 3.50 },
-  { nombre: "Burrito Especial", precio: 3.50 },
+   { nombre: "Torta mixtas", precio: 3.00 },
+  { nombre: "Burrito Especial", precio: 3.00 },
+   { nombre: "Quesadillas", precio: 3.50 },
   { nombre: "Pan de Ajo", precio: 1.00 },
   { nombre: "Refresco de sabores", precio: 0.75 },
   { nombre: "Coca-Cola Lata", precio: 1.25 },
@@ -91,5 +94,30 @@ function solicitarPedido() {
 }
 
 
+
+  const form = document.getElementById("feedbackForm");
+  const statusMsg = document.getElementById("statusMsg");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    fetch("/api/feedback", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+      statusMsg.innerText = "✅ Mensaje enviado con éxito";
+      statusMsg.style.color = "green";
+      form.reset();
+    })
+    .catch(error => {
+      console.error(error);
+      statusMsg.innerText = "❌ Error al enviar mensaje";
+      statusMsg.style.color = "red";
+    });
+  });
 
 
