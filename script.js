@@ -89,3 +89,12 @@ function solicitarPedido() {
   // ✅ Mensaje de confirmación
   alert("✅ Pedido enviado con éxito, ¡Gracias por tu compra!");
 }
+
+
+ 
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      document.getElementById("loader").style.display = "none";
+    }, 5000); // 3000 milisegundos = 3 segundos
+  });
+
