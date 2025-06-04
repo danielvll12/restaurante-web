@@ -5,11 +5,15 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #121212;
-  color: #f1f1f1;
-  line-height: 1.6;
+body  {
+  
+  background: url('background.jpeg') no-repeat center center fixed;
+  background-size: cover;
+
+
+
+
+
 }
 
 /* Container */
@@ -21,11 +25,11 @@ body {
 
 /* Header */
 header {
-  background-color: #ff5722;
+  background-color: green;
   padding: 30px 0;
   text-align: center;
   color: white;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 10px white (0,0,0,0.5);
 }
 
 /* Layout */
@@ -38,10 +42,10 @@ main {
 
 .menu, .ticket {
   flex: 1 1 400px;
-  background: #1e1e1e;
+  background: lightgrey;
   padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 12px white (0,0,0,0.3);
 }
 
 /* Menú Grid */
@@ -51,7 +55,7 @@ main {
 }
 
 .menu-card {
-  background: #2c2c2c;
+  background: whitesmoke;
   padding: 16px;
   border-radius: 12px;
   display: flex;
@@ -67,7 +71,7 @@ main {
 .menu-card button {
   background: #03dac6;
   border: none;
-  color: #000;
+  color:white;
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
@@ -86,7 +90,7 @@ main {
 
 .ticket li {
   padding: 6px 0;
-  border-bottom: 1px dashed #555;
+  border-bottom: 1px dashed white;
 }
 
 .total {
