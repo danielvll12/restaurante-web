@@ -7,7 +7,7 @@
 
 body  {
   
-  background: url('background.jpeg') no-repeat center center fixed;
+  background: url('background.jpg') no-repeat center center fixed;
   background-size: cover;
 
 
@@ -25,11 +25,11 @@ body  {
 
 /* Header */
 header {
-  background-color: green;
+  background-color: orangered;
   padding: 30px 0;
   text-align: center;
   color: white;
-  box-shadow: 0 2px 10px white (0,0,0,0.5);
+  box-shadow: 0 2px 10px rgb(0,0,0,0.5);
 }
 
 /* Layout */
@@ -45,7 +45,7 @@ main {
   background: lightgrey;
   padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 2px 12px white (0,0,0,0.3);
+  box-shadow: 0 2px 12px  rgb(0,0,0,0.3);
 }
 
 /* Menú Grid */
@@ -55,7 +55,7 @@ main {
 }
 
 .menu-card {
-  background: whitesmoke;
+  background: white;
   padding: 16px;
   border-radius: 12px;
   display: flex;
