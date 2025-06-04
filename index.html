@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Taqueria mercy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>🍽️ Taqueria mercy</h1>
+      <p>Comida Mexicana con un toque especial</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="menu">
+      <h2>Menú</h2>
+      <div class="menu-grid" id="menuItems">
+        <!-- JS insertará los productos aquí -->
+      </div>
+    </section>
+
+    <section class="ticket">
+      <h2>🧾 Ticket</h2>
+      <ul id="ticketList"></ul>
+      <div class="total">Total: $<span id="total">0.00</span></div>
+      <button class="btn-clear" onclick="resetTicket()">🗑 Nueva Orden</button>
+      <div class="formulario-pedido">
+  <input type="text" id="nombreCliente" placeholder="Tu nombre" required>
+  <input type="text" id="direccionCliente" placeholder="Tu dirección" required>
+</div>
+
+<button class="btn-solicitar" onclick="solicitarPedido()">📦 Solicitar Pedido</button>
+
+     
+
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Taqueria mercy | Desarrollado por Daniel valle</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
