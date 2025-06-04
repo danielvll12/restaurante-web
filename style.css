@@ -5,40 +5,41 @@
   box-sizing: border-box;
 }
 
-body  {
-  
-
-  background-image: url('background.jpg'); /* Reemplaza con tu imagen */
-  background-size: cover;        /* Escala la imagen para cubrir toda la pantalla */
-  background-position: center;   /* Centra la imagen */
-  background-repeat: no-repeat;  /* No repite la imagen */
-  background-attachment: fixed;  /* Opcional: fija la imagen al hacer scroll */
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('background.jpg'); /* Reemplaza con tu ruta */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  filter: brightness(0.7); /* Oscurece ligeramente la imagen */
 }
+
 
 
 
 /* Container */
 
 .container {
-  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con transparencia */
+  background-color: rgb(255, 255, 255, 0.7); /* Antes: 0.9, ahora más transparente */
   border-radius: 10px;
   padding: 20px;
   margin: 20px;
 }
-
-
+s
 /* Header */
+
 header {
-  background-color: orangered;
+ background-color: orangered;
   padding: 30px 0;
   text-align: center;
   color:black;
   box-shadow: 0 2px 10px rgb(0,0,0,0.5);
 }
-
 /* Layout */
 main {
   display: flex;
