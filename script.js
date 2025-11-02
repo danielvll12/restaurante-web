@@ -78,7 +78,7 @@ function solicitarPedido() {
 
   mensaje += `\n💵 *Total:* $${total.toFixed(2)}`;
 
-  const numeroWhatsApp = "50374811907"; // Cambia este número por el del dueño
+  const numeroWhatsApp = "50372484861"; // Cambia este número por el del dueño
   const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
 
   // Abrir WhatsApp
@@ -121,3 +121,48 @@ function solicitarPedido() {
   });
 
 
+
+
+
+
+
+
+  function obtenerUbicacion() {
+  const direccionInput = document.getElementById('direccionCliente');
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        try {
+          // Usamos API de geocodificación inversa gratuita de OpenStreetMap (Nominatim)
+          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+          const data = await response.json();
+          direccionInput.value = data.display_name || "Ubicación encontrada";
+        } catch (error) {
+          direccionInput.value = "No se pudo obtener la dirección";
+          console.error(error);
+        }
+      },
+      (error) => {
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            direccionInput.value = "Permiso denegado para acceder a la ubicación";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            direccionInput.value = "Ubicación no disponible";
+            break;
+          case error.TIMEOUT:
+            direccionInput.value = "Tiempo de espera agotado";
+            break;
+          default:
+            direccionInput.value = "Error desconocido";
+        }
+      }
+    );
+  } else {
+    direccionInput.value = "Geolocalización no soportada por tu navegador";
+  }
+}

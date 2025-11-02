@@ -1,70 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Taqueria mercy</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taquería Mercy 🌮</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
- <div id="loader">
-  <div class="loader-content">
-    <img src="logo.jpg" alt="Cargando..." id="logo-loader">
-    <div class="spinner"></div>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-content">
+      <img src="logo.jpg" alt="Cargando..." id="logo-loader">
+      <div class="spinner"></div>
+    </div>
   </div>
-</div>
 
-
-  <header>
+  <!-- Header -->
+  <header class="site-header">
     <div class="container">
-      <h1>🍽️ Taqueria mercy</h1>
-      <p>Comida Mexicana con un toque especial</p>
+      <h1>🌮 Taquería Mercy 🌮 </h1>
+      <p class="slogan">Comida Mexicana con un toque especial</p>
     </div>
   </header>
- 
 
-
+  <!-- Main Content -->
   <main class="container">
+    <!-- Menú -->
     <section class="menu">
       <h2>Menú</h2>
       <div class="menu-grid" id="menuItems">
-        <!-- JS insertará los productos aquí -->
+        <!-- Productos insertados dinámicamente vía JS -->
       </div>
     </section>
 
+    <!-- Ticket de Pedido -->
     <section class="ticket">
-      <h2>🧾 Ticket</h2>
+      <h2>🧾 Pedido</h2>
+      
+      <!-- Lista de pedidos -->
       <ul id="ticketList"></ul>
-      <div class="total">Total: $<span id="total">0.00</span></div>
-      <button class="btn-clear" onclick="resetTicket()">🗑 Nueva Orden</button>
-      <div class="formulario-pedido">
-  <input type="text" id="nombreCliente" placeholder="Tu nombre" required>
-  <input type="text" id="direccionCliente" placeholder="Tu dirección" required>
-</div>
+      
+      <!-- Total -->
+      <div class="total">
+        Total: $<span id="total">0.00</span>
+      </div>
 
-<button class="btn-solicitar" onclick="solicitarPedido()">📦 Solicitar Pedido</button>
+      <!-- Botones -->
+      <div class="ticket-actions">
+        <button class="btn-clear" onclick="resetTicket()">🗑 Nueva Orden</button>
+      </div>
 
-     
+      <!-- Formulario de pedido -->
+      <form class="formulario-pedido" id="pedidoForm">
+        <input type="text" id="nombreCliente" placeholder="Tu nombre" required>
+        <label for="direccionCliente">Tu ubicación actual:</label>
+<input type="text" id="direccionCliente" placeholder="Esperando ubicación..." readonly required>
+<button type="button" onclick="obtenerUbicacion()">📍 Usar mi ubicación</button>
 
+
+        <button type="button" class="btn-solicitar" onclick="solicitarPedido()">📦 Solicitar Pedido</button>
+      </form>
     </section>
   </main>
-<section id="feedback">
-  <h2>Déjanos tu opinión</h2>
-  <form id="feedbackForm" class="form-feedback">
-    <input type="text" name="nombre" placeholder="Tu nombre" required>
-    <input type="email" name="correo" placeholder="Tu correo" required>
-    <textarea name="mensaje" placeholder="Tu mensaje" rows="5" required></textarea>
-    <button type="submit">Enviar</button>
-    <p id="statusMsg" style="margin-top:10px;"></p>
-  </form>
-</section>
 
+  <!-- Sección de feedback -->
+  <section id="feedback" class="container">
+    <h2>Déjanos tu opinión</h2>
+    <form id="feedbackForm" class="form-feedback">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+      <input type="email" name="correo" placeholder="Tu correo" required>
+      <textarea name="mensaje" placeholder="Tu mensaje" rows="5" required></textarea>
+      <button type="submit">Enviar</button>
+      <p id="statusMsg" class="status-msg"></p>
+    </form>
+  </section>
 
-  <footer>
-    <p>&copy; 2025 Taqueria mercy | Desarrollado por Daniel valle</p>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 Taquería Mercy. Todos los derechos reservados.</p>
+    </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
-
 </body>
 </html>
