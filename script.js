@@ -100,7 +100,13 @@ function resetTicket() {
 // ---------------------------
 function solicitarPedido() {
   const nombre = document.getElementById("nombreCliente").value.trim();
-  const direccion = document.getElementById("direccionCliente").value.trim();
+  const direccionGPS = document.getElementById("direccionCliente").value.trim();
+  const direccionAlt = document.getElementById("direccionAlternativa") 
+                        ? document.getElementById("direccionAlternativa").value.trim() 
+                        : "";
+
+  // Prioriza la dirección alternativa si el usuario la ingresa
+  const direccion = direccionAlt || direccionGPS;
 
   if (!nombre || !direccion) {
     alert("Por favor, completa tu nombre y dirección.");
@@ -112,6 +118,7 @@ function solicitarPedido() {
     return;
   }
 
+  // Construir mensaje del pedido
   let mensaje = `🍽 *Nuevo Pedido para llevar*\n`;
   mensaje += `👤 *Cliente:* ${nombre}\n`;
   mensaje += `📍 *Dirección:* ${direccion}\n\n`;
@@ -124,24 +131,25 @@ function solicitarPedido() {
 
   mensaje += `\n💵 *Total:* $${total.toFixed(2)}`;
 
-  const numeroWhatsApp = "50372484861"; // Cambia este número por el del dueño
+  // Enviar por WhatsApp
+  const numeroWhatsApp = "50372484861"; // Cambiar al número del dueño
   const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-
-  // Abrir WhatsApp
   window.open(urlWhatsApp, '_blank');
 
-  // Abrir Waze con coordenadas del cliente si existen
+  // Abrir Waze usando coordenadas del GPS si están disponibles
   if (usuarioLat && usuarioLon) {
     const urlWaze = `https://www.waze.com/ul?ll=${usuarioLat},${usuarioLon}&navigate=yes`;
     window.open(urlWaze, '_blank');
   }
 
-  // ✅ Reset automático
+  // Reset automático del formulario y ticket
   resetTicket();
   document.getElementById("nombreCliente").value = "";
   document.getElementById("direccionCliente").value = "";
+  if (document.getElementById("direccionAlternativa")) {
+    document.getElementById("direccionAlternativa").value = "";
+  }
 
-  // ✅ Mensaje de confirmación
   alert("✅ Pedido enviado con éxito, ¡Gracias por tu compra!");
 }
 
