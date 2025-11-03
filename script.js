@@ -18,6 +18,10 @@ const ticketList = document.getElementById("ticketList");
 const totalSpan = document.getElementById("total");
 let total = 0;
 
+// Variables para almacenar coordenadas del cliente
+let usuarioLat = null;
+let usuarioLon = null;
+
 // ---------------------------
 // Generar menú dinámico
 // ---------------------------
@@ -80,7 +84,7 @@ function resetTicket() {
 }
 
 // ---------------------------
-// Solicitar pedido por WhatsApp
+// Solicitar pedido por WhatsApp y abrir Waze
 // ---------------------------
 function solicitarPedido() {
   const nombre = document.getElementById("nombreCliente").value.trim();
@@ -109,10 +113,16 @@ function solicitarPedido() {
   mensaje += `\n💵 *Total:* $${total.toFixed(2)}`;
 
   const numeroWhatsApp = "50372484861"; // Cambia este número por el del dueño
-  const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+  const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
 
   // Abrir WhatsApp
-  window.open(url, '_blank');
+  window.open(urlWhatsApp, '_blank');
+
+  // Abrir Waze con coordenadas del cliente si existen
+  if (usuarioLat && usuarioLon) {
+    const urlWaze = `https://www.waze.com/ul?ll=${usuarioLat},${usuarioLon}&navigate=yes`;
+    window.open(urlWaze, '_blank');
+  }
 
   // ✅ Reset automático
   resetTicket();
@@ -162,6 +172,10 @@ function obtenerUbicacion() {
       async (position) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
+
+        // Guardar coordenadas para Waze
+        usuarioLat = lat;
+        usuarioLon = lon;
 
         try {
           // Usamos API de geocodificación inversa gratuita de OpenStreetMap (Nominatim)
