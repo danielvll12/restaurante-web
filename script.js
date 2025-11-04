@@ -10,7 +10,7 @@ const menu = [
   { nombre: "Burrito de Res", precio: 3.50 },
   { nombre: "Burrito de pollo", precio: 3.00 },
   { nombre: "Burrito de pastor", precio: 3.00 },
-  { nombre: "Burrito de mixto", precio: 3.00 },
+  { nombre: "Burrito  mixto", precio: 3.00 },
   { nombre: "Quesadilla de Res", precio: 3.50 },
   { nombre: "Quesadilla de pollo", precio: 3.00 },
   { nombre: "Quesadilla de pastor", precio: 3.00 },
