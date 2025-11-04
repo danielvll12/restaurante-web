@@ -30,10 +30,6 @@ const ticketList = document.getElementById("ticketList");
 const totalSpan = document.getElementById("total");
 let total = 0;
 
-// Variables para almacenar coordenadas del cliente
-let usuarioLat = null;
-let usuarioLon = null;
-
 // ---------------------------
 // Generar menú dinámico
 // ---------------------------
@@ -60,19 +56,12 @@ function agregarAlTicket(nombre, precio) {
   total += precio;
   totalSpan.textContent = total.toFixed(2);
 
-  // ---------------------------
-  // Scroll automático al ticket
-  // ---------------------------
   const ticketSection = document.querySelector('.ticket');
   ticketSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // ---------------------------
-  // Resaltar ticket brevemente
-  // ---------------------------
   ticketSection.style.transition = 'background-color 0.3s';
-  ticketSection.style.backgroundColor = '#fffae6'; // color temporal
+  ticketSection.style.backgroundColor = '#fffae6';
   setTimeout(() => {
-    ticketSection.style.backgroundColor = '#fff'; // color original
+    ticketSection.style.backgroundColor = '#fff';
   }, 500);
 }
 
@@ -96,20 +85,13 @@ function resetTicket() {
 }
 
 // ---------------------------
-// Solicitar pedido por WhatsApp y abrir Waze
+// Solicitar pedido por WhatsApp
 // ---------------------------
 function solicitarPedido() {
   const nombre = document.getElementById("nombreCliente").value.trim();
-  const direccionGPS = document.getElementById("direccionCliente").value.trim();
-  const direccionAlt = document.getElementById("direccionAlternativa") 
-                        ? document.getElementById("direccionAlternativa").value.trim() 
-                        : "";
 
-  // Prioriza la dirección alternativa si el usuario la ingresa
-  const direccion = direccionAlt || direccionGPS;
-
-  if (!nombre || !direccion) {
-    alert("Por favor, completa tu nombre y dirección.");
+  if (!nombre) {
+    alert("Por favor, ingresa tu nombre.");
     return;
   }
 
@@ -120,8 +102,7 @@ function solicitarPedido() {
 
   // Construir mensaje del pedido
   let mensaje = `🍽 *Nuevo Pedido para llevar*\n`;
-  mensaje += `👤 *Cliente:* ${nombre}\n`;
-  mensaje += `📍 *Dirección:* ${direccion}\n\n`;
+  mensaje += `👤 *Cliente:* ${nombre}\n\n`;
 
   const items = ticketList.querySelectorAll("li");
   items.forEach(li => {
@@ -136,94 +117,9 @@ function solicitarPedido() {
   const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
   window.open(urlWhatsApp, '_blank');
 
-  // Abrir Waze usando coordenadas del GPS si están disponibles
-  if (usuarioLat && usuarioLon) {
-    const urlWaze = `https://www.waze.com/ul?ll=${usuarioLat},${usuarioLon}&navigate=yes`;
-    window.open(urlWaze, '_blank');
-  }
-
   // Reset automático del formulario y ticket
   resetTicket();
   document.getElementById("nombreCliente").value = "";
-  document.getElementById("direccionCliente").value = "";
-  if (document.getElementById("direccionAlternativa")) {
-    document.getElementById("direccionAlternativa").value = "";
-  }
 
   alert("✅ Pedido enviado con éxito, ¡Gracias por tu compra!");
-}
-
-// ---------------------------
-// Formulario de feedback
-// ---------------------------
-const form = document.getElementById("feedbackForm");
-const statusMsg = document.getElementById("statusMsg");
-
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const formData = new FormData(form);
-
-  fetch("/api/feedback", {
-    method: "POST",
-    body: formData
-  })
-  .then(response => response.text())
-  .then(data => {
-    statusMsg.innerText = "✅ Mensaje enviado con éxito";
-    statusMsg.style.color = "green";
-    form.reset();
-  })
-  .catch(error => {
-    console.error(error);
-    statusMsg.innerText = "❌ Error al enviar mensaje";
-    statusMsg.style.color = "red";
-  });
-});
-
-// ---------------------------
-// Obtener ubicación automáticamente
-// ---------------------------
-function obtenerUbicacion() {
-  const direccionInput = document.getElementById('direccionCliente');
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-
-        // Guardar coordenadas para Waze
-        usuarioLat = lat;
-        usuarioLon = lon;
-
-        try {
-          // Usamos API de geocodificación inversa gratuita de OpenStreetMap (Nominatim)
-          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
-          const data = await response.json();
-          direccionInput.value = data.display_name || "Ubicación encontrada";
-        } catch (error) {
-          direccionInput.value = "No se pudo obtener la dirección";
-          console.error(error);
-        }
-      },
-      (error) => {
-        switch(error.code) {
-          case error.PERMISSION_DENIED:
-            direccionInput.value = "Permiso denegado para acceder a la ubicación";
-            break;
-          case error.POSITION_UNAVAILABLE:
-            direccionInput.value = "Ubicación no disponible";
-            break;
-          case error.TIMEOUT:
-            direccionInput.value = "Tiempo de espera agotado";
-            break;
-          default:
-            direccionInput.value = "Error desconocido";
-        }
-      }
-    );
-  } else {
-    direccionInput.value = "Geolocalización no soportada por tu navegador";
-  }
 }
