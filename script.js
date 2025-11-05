@@ -156,40 +156,50 @@ async function generarComprobante() {
   // Crear documento PDF
   const doc = new jsPDF();
 
-  // Encabezado
+  // --- Encabezado ---
+  doc.setFont("helvetica", "bold");
   doc.setFontSize(18);
-  doc.text("Taquería Mercy", 70, 15);
+  doc.text("Taquería Mercy", 70, 20);
   doc.setFontSize(12);
-  doc.text("Comprobante de Factura", 75, 25);
-  doc.text(`Cliente: ${nombre}`, 14, 40);
-  doc.text(`Fecha: ${fecha}`, 14, 47);
+  doc.setFont("helvetica", "normal");
+  doc.text("Comprobante de Factura", 80, 28);
+  doc.line(10, 32, 200, 32); // línea separadora
 
-  // Obtener productos del pedido
+  // --- Datos del cliente ---
+  doc.setFontSize(11);
+  doc.text(`Cliente: ${nombre}`, 14, 42);
+  doc.text(`Fecha: ${fecha}`, 14, 48);
+
+  // --- Productos ---
   const productos = [];
   ticketList.forEach((item) => {
-    const texto = item.textContent.trim();
+    const texto = item.textContent.replace("❌", "").trim();
     const partes = texto.split(" - $");
     const nombreProd = partes[0];
     const precio = partes[1];
     productos.push([nombreProd, `$${precio}`]);
   });
 
-  // Crear tabla con productos
   doc.autoTable({
     startY: 55,
     head: [["Producto", "Precio"]],
     body: productos,
+    styles: { fontSize: 11 },
+    headStyles: { fillColor: [255, 150, 50] },
   });
 
-  // Total
+  // --- Total ---
   const finalY = doc.lastAutoTable.finalY + 10;
-  doc.setFontSize(14);
+  doc.setFontSize(13);
+  doc.setFont("helvetica", "bold");
   doc.text(`Total a pagar: $${total}`, 14, finalY);
 
-  // Mensaje final
+  // --- Mensaje final ---
   doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
   doc.text("Gracias por tu compra. ¡Vuelve pronto!", 14, finalY + 10);
+  doc.text("3ª Calle Oriente y 6 Av. Norte, Cojutepeque, Cuscatlán", 14, finalY + 16);
 
-  // Descargar PDF
+  // Guardar PDF
   doc.save(`Factura_${nombre}_${Date.now()}.pdf`);
 }
