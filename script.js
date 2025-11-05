@@ -91,6 +91,7 @@ function resetTicket() {
 // ---------------------------
 async function solicitarPedido() {
   const nombre = document.getElementById("nombreCliente").value.trim();
+  const comentario = document.getElementById("comentarioCliente")?.value.trim() || ""; // ✅ Nuevo campo
 
   if (!nombre) {
     alert("Por favor, ingresa tu nombre.");
@@ -120,6 +121,11 @@ async function solicitarPedido() {
 
   mensaje += `\n💵 *Total:* $${total.toFixed(2)}`;
 
+  // ✅ Agregar comentario si existe
+  if (comentario) {
+    mensaje += `\n📝 *Comentario:* ${comentario}`;
+  }
+
   // Enviar por WhatsApp
   const numeroWhatsApp = "50372484861"; // Cambiar al número del dueño
   const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
@@ -128,12 +134,15 @@ async function solicitarPedido() {
   // Reset automático del formulario y ticket
   resetTicket();
   document.getElementById("nombreCliente").value = "";
+  if (document.getElementById("comentarioCliente")) {
+    document.getElementById("comentarioCliente").value = "";
+  }
 
   alert("✅ Pedido enviado con éxito, ¡Gracias por tu compra!");
 }
 
 // ---------------------------
-// Generar comprobante de factura
+// Generar comprobante de factura (sin comentario)
 // ---------------------------
 async function generarComprobante(auto = false) {
   const { jsPDF } = window.jspdf;
@@ -155,16 +164,16 @@ async function generarComprobante(auto = false) {
   const doc = new jsPDF();
 
   // Encabezado centrado
-doc.setFont("helvetica", "bold");
-doc.setFontSize(18);
-doc.text("Taquería Mercy", 105, 20, { align: "center" }); // centrado horizontalmente
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.text("Taquería Mercy", 105, 20, { align: "center" }); // centrado horizontalmente
 
-doc.setFontSize(12);
-doc.setFont("helvetica", "normal");
-doc.text("Comprobante de compra", 105, 28, { align: "center" }); // centrado en la misma línea vertical
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text("Comprobante de compra", 105, 28, { align: "center" }); // centrado en la misma línea vertical
 
-// Línea separadora
-doc.line(10, 32, 200, 32);
+  // Línea separadora
+  doc.line(10, 32, 200, 32);
 
   doc.setFontSize(11);
   doc.text(`Cliente: ${nombre}`, 14, 42);
