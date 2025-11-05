@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Taquería Mercy 🌮</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Librerías para PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
   <!-- Loader -->
@@ -48,6 +51,7 @@
       <!-- Botones -->
       <div class="ticket-actions">
         <button class="btn-clear" onclick="resetTicket()">🗑 Nueva Orden</button>
+        <button class="btn-factura" onclick="generarComprobante()">💳 Descargar Comprobante de Factura</button>
       </div>
 
       <!-- Formulario de pedido -->
@@ -62,9 +66,7 @@
   <footer class="site-footer">
     <div class="container">
       <p>&copy; 2025 Taquería Mercy. Todos los derechos reservados.</p>
-      
-
-      <p>📍  Visítanos, estamos ubicados en: 3ª Calle Oriente y 6 Av. Norte, media cuadra arriba de CAESS, Cojutepeque, Cuscatlán Sur</p>
+      <p>📍 Visítanos, estamos ubicados en: 3ª Calle Oriente y 6 Av. Norte, media cuadra arriba de CAESS, Cojutepeque, Cuscatlán Sur</p>
     </div>
   </footer>
 

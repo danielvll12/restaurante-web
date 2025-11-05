@@ -123,3 +123,73 @@ function solicitarPedido() {
 
   alert("✅ Pedido enviado con éxito, ¡Gracias por tu compra!");
 }
+
+
+
+
+
+
+
+
+
+
+//comprobante de factura
+
+
+async function generarComprobante() {
+  const { jsPDF } = window.jspdf;
+  const nombre = document.getElementById("nombreCliente").value.trim();
+  const total = document.getElementById("total").textContent;
+  const ticketList = document.querySelectorAll("#ticketList li");
+  const fecha = new Date().toLocaleString();
+
+  if (!nombre) {
+    alert("Por favor, ingresa el nombre del cliente para generar el comprobante.");
+    return;
+  }
+
+  if (ticketList.length === 0) {
+    alert("No hay productos en el pedido para generar un comprobante.");
+    return;
+  }
+
+  // Crear documento PDF
+  const doc = new jsPDF();
+
+  // Encabezado
+  doc.setFontSize(18);
+  doc.text("Taquería Mercy", 70, 15);
+  doc.setFontSize(12);
+  doc.text("Comprobante de Factura", 75, 25);
+  doc.text(`Cliente: ${nombre}`, 14, 40);
+  doc.text(`Fecha: ${fecha}`, 14, 47);
+
+  // Obtener productos del pedido
+  const productos = [];
+  ticketList.forEach((item) => {
+    const texto = item.textContent.trim();
+    const partes = texto.split(" - $");
+    const nombreProd = partes[0];
+    const precio = partes[1];
+    productos.push([nombreProd, `$${precio}`]);
+  });
+
+  // Crear tabla con productos
+  doc.autoTable({
+    startY: 55,
+    head: [["Producto", "Precio"]],
+    body: productos,
+  });
+
+  // Total
+  const finalY = doc.lastAutoTable.finalY + 10;
+  doc.setFontSize(14);
+  doc.text(`Total a pagar: $${total}`, 14, finalY);
+
+  // Mensaje final
+  doc.setFontSize(10);
+  doc.text("Gracias por tu compra. ¡Vuelve pronto!", 14, finalY + 10);
+
+  // Descargar PDF
+  doc.save(`Factura_${nombre}_${Date.now()}.pdf`);
+}
