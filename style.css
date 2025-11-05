@@ -415,13 +415,13 @@ footer {
 
 /* Texto del título principal */
 .site-header h1 {
-
-    font-family: sans-serif;
+  font-family: sans-serif;
   text-shadow: 2px 2px 4px #000;
-  
   margin: 0;
-}
-
+  color: black;
+  white-space: nowrap;       /* evita saltos de línea */
+  display: inline-block;
+  font-size: clamp(38px, 5vw, 100px);}
 /* Eslogan */
 .slogan {
   font-weight: bold;
