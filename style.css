@@ -416,7 +416,7 @@ footer {
 /* Texto del título principal */
 .site-header h1 {
 
-  
+    font-family: "Comic Sans MS", "Trebuchet MS", cursive;
   text-shadow: 2px 2px 4px #000;
   
   margin: 0;
