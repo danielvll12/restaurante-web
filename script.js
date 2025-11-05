@@ -29,6 +29,7 @@ const menuItemsDiv = document.getElementById("menuItems");
 const ticketList = document.getElementById("ticketList");
 const totalSpan = document.getElementById("total");
 let total = 0;
+let comprobanteGenerado = false; // ⚡ Nuevo: para controlar si ya se descargó el comprobante
 
 // ---------------------------
 // Generar menú dinámico
@@ -82,12 +83,13 @@ function resetTicket() {
   ticketList.innerHTML = "";
   total = 0;
   totalSpan.textContent = "0.00";
+  comprobanteGenerado = false; // reinicia el estado
 }
 
 // ---------------------------
 // Solicitar pedido por WhatsApp
 // ---------------------------
-function solicitarPedido() {
+async function solicitarPedido() {
   const nombre = document.getElementById("nombreCliente").value.trim();
 
   if (!nombre) {
@@ -98,6 +100,12 @@ function solicitarPedido() {
   if (ticketList.children.length === 0) {
     alert("Primero agrega productos al pedido.");
     return;
+  }
+
+  // ⚡ Si no se ha generado comprobante, hacerlo primero
+  if (!comprobanteGenerado) {
+    const exito = await generarComprobante(true); // modo automático
+    if (!exito) return; // si falla, no continúa
   }
 
   // Construir mensaje del pedido
@@ -124,19 +132,10 @@ function solicitarPedido() {
   alert("✅ Pedido enviado con éxito, ¡Gracias por tu compra!");
 }
 
-
-
-
-
-
-
-
-
-
-//comprobante de factura
-
-
-async function generarComprobante() {
+// ---------------------------
+// Generar comprobante de factura
+// ---------------------------
+async function generarComprobante(auto = false) {
   const { jsPDF } = window.jspdf;
   const nombre = document.getElementById("nombreCliente").value.trim();
   const total = document.getElementById("total").textContent;
@@ -144,33 +143,33 @@ async function generarComprobante() {
   const fecha = new Date().toLocaleString();
 
   if (!nombre) {
-    alert("Por favor, ingresa el nombre del cliente para generar el comprobante.");
-    return;
+    if (!auto) alert("Por favor, ingresa el nombre del cliente para generar el comprobante.");
+    return false;
   }
 
   if (ticketList.length === 0) {
-    alert("No hay productos en el pedido para generar un comprobante.");
-    return;
+    if (!auto) alert("No hay productos en el pedido para generar un comprobante.");
+    return false;
   }
 
-  // Crear documento PDF
   const doc = new jsPDF();
 
-  // --- Encabezado ---
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(18);
-  doc.text("Taquería Mercy", 70, 20);
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "normal");
-  doc.text("Comprobante de Factura", 80, 28);
-  doc.line(10, 32, 200, 32); // línea separadora
+  // Encabezado centrado
+doc.setFont("helvetica", "bold");
+doc.setFontSize(18);
+doc.text("Taquería Mercy", 105, 20, { align: "center" }); // centrado horizontalmente
 
-  // --- Datos del cliente ---
+doc.setFontSize(12);
+doc.setFont("helvetica", "normal");
+doc.text("Comprobante de compra", 105, 28, { align: "center" }); // centrado en la misma línea vertical
+
+// Línea separadora
+doc.line(10, 32, 200, 32);
+
   doc.setFontSize(11);
   doc.text(`Cliente: ${nombre}`, 14, 42);
   doc.text(`Fecha: ${fecha}`, 14, 48);
 
-  // --- Productos ---
   const productos = [];
   ticketList.forEach((item) => {
     const texto = item.textContent.replace("❌", "").trim();
@@ -188,18 +187,27 @@ async function generarComprobante() {
     headStyles: { fillColor: [255, 150, 50] },
   });
 
-  // --- Total ---
   const finalY = doc.lastAutoTable.finalY + 10;
   doc.setFontSize(13);
   doc.setFont("helvetica", "bold");
   doc.text(`Total a pagar: $${total}`, 14, finalY);
 
-  // --- Mensaje final ---
+  // 📍 Dirección formateada
+  const direccion = "Visítanos, estamos ubicados en: 3ª Calle Oriente y 6 Av. Norte, media cuadra arriba de CAESS, Cojutepeque, Cuscatlán Sur.";
+  const direccionFormateada = doc.splitTextToSize(direccion, 180);
+
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   doc.text("Gracias por tu compra. ¡Vuelve pronto!", 14, finalY + 10);
-  doc.text("3ª Calle Oriente y 6 Av. Norte, Cojutepeque, Cuscatlán", 14, finalY + 16);
+  doc.setFont("helvetica", "bold");
+  doc.text("Ubicación del local:", 14, finalY + 18);
+  doc.setFont("helvetica", "normal");
+  doc.text(direccionFormateada, 14, finalY + 24);
 
-  // Guardar PDF
   doc.save(`Factura_${nombre}_${Date.now()}.pdf`);
+
+  comprobanteGenerado = true; // ✅ marcar como generado
+
+  if (!auto) alert("✅ Comprobante generado con éxito.");
+  return true;
 }
