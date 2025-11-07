@@ -110,7 +110,7 @@ async function solicitarPedido() {
   }
 
   // Construir mensaje del pedido
-  let mensaje = `🍽 *Nuevo Pedido para llevar*\n`;
+  let mensaje = `🍽 *Nuevo Pedido *\n`;
   mensaje += `👤 *Cliente:* ${nombre}\n\n`;
 
   const items = ticketList.querySelectorAll("li");
