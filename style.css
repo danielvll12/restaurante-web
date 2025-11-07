@@ -60,7 +60,7 @@ body {
   text-align: center;
   padding: 30px 10px;
   background: linear-gradient(90deg, red, green); /* Fondo navideño */
-  color: black;
+ color: black;
   position: relative;
   overflow: hidden;
 }
@@ -74,7 +74,7 @@ body {
 
 .slogan {
   font-size: 1em;
-  color: #000;
+  color: white;
   font-weight: 500;
 }
 
