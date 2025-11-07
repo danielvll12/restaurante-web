@@ -203,6 +203,7 @@ async function generarComprobante(auto = false) {
   doc.text(`Total a pagar: $${total}`, 14, finalY);
 
   // ⚠️ Nueva sección: Nota para el cliente
+   // ⚠️ Nueva sección: Nota para el cliente
   const nota = `
 Nota importante:
 Su pedido estará listo en un plazo de 15 a 30 minutos.
@@ -216,18 +217,23 @@ y realice el pago en efectivo al momento de la entrega.
   doc.text(notaFormateada, 14, finalY + 10);
 
   // 📍 Dirección formateada
-  const direccion = "Visítanos, estamos ubicados en: 3ª Calle Oriente y 6 Av. Norte, media cuadra arriba de CAESS, Cojutepeque, Cuscatlán Sur.";
+  const direccion = "Estamos ubicados en: 3ª Calle Oriente y 6 Av. Norte, media cuadra arriba de CAESS, Cojutepeque, Cuscatlán Sur.";
   const direccionFormateada = doc.splitTextToSize(direccion, 180);
 
-  let nextY = finalY + 10 + notaFormateada.length * 5 + 6;
+  // 🔽 Espaciado después de la nota
+  let nextY = finalY + 10 + notaFormateada.length * 5 + 8;
 
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "normal");
-  doc.text("Gracias por tu compra. ¡Vuelve pronto!", 14, nextY);
+  // 🏠 Ubicación del local
   doc.setFont("helvetica", "bold");
-  doc.text("Ubicación del local:", 14, nextY + 8);
+  doc.text("Ubicación del local:", 14, nextY);
   doc.setFont("helvetica", "normal");
-  doc.text(direccionFormateada, 14, nextY + 14);
+  doc.text(direccionFormateada, 14, nextY + 6);
+
+  // 🙏 Frase de agradecimiento (último)
+  const agradecimientoY = nextY + direccionFormateada.length * 5 + 10;
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.text("Gracias por tu compra. ¡Vuelve pronto!", 14, agradecimientoY);
 
   doc.save(`Factura_${nombre}_${Date.now()}.pdf`);
 
