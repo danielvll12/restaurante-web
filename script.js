@@ -236,3 +236,41 @@ y realice el pago en efectivo al momento de la entrega.
   if (!auto) alert("✅ Comprobante generado con éxito.");
   return true;
 }
+
+
+
+
+
+
+// 🟢 Ocultar loader cuando todo haya cargado
+ window.addEventListener("load", function() {
+    const loader = document.getElementById("loader");
+
+    // Espera 2.5 segundos antes de ocultar el loader
+    setTimeout(() => {
+      loader.style.opacity = "0";
+      loader.style.transition = "opacity 0.5s ease";
+      setTimeout(() => loader.style.display = "none", 500);
+    }, 1800); // ← Aquí ajustas la duración (en milisegundos)
+  });
+
+
+
+// ❄️ Generador de nieve
+const snowContainer = document.createElement("div");
+document.body.appendChild(snowContainer);
+
+function crearNieve() {
+  const snowflake = document.createElement("div");
+  snowflake.classList.add("snowflake");
+  snowflake.textContent = "❄";
+  snowflake.style.left = Math.random() * 100 + "vw";
+  snowflake.style.animationDuration = Math.random() * 3 + 2 + "s";
+  snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
+  snowflake.style.opacity = Math.random();
+  snowContainer.appendChild(snowflake);
+  setTimeout(() => snowflake.remove(), 5000);
+}
+
+setInterval(crearNieve, 150);
+
