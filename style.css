@@ -394,7 +394,7 @@ body {
 .burbuja {
   position: absolute;
   top: -60px;
-  left: 50%;
+  left: -10%;
   transform: translateX(-50%);
   background: #fff59d;
   padding: 5px 10px;
