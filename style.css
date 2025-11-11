@@ -402,15 +402,15 @@ body {
   font-weight: bold;
   color: #d32f2f;
   opacity: 0;
-  animation: hablar 12s infinite;
+  animation: hablar 17s infinite;
 }
 
 .burbuja2 {
-  animation-delay: 9s;
+  animation-delay: 5s;
   left: 20%;
 }
 .burbuja3 {
-  animation-delay:6s;
+  animation-delay:12s;
   left: -20%;
 }
 
